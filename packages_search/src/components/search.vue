@@ -4,13 +4,16 @@
 
 
 <script>
-import {mapActions, mapState} from 'vuex';
+import {mapActions, mapState, mapGetters} from 'vuex';
 import debounce from 'lodash.debounce';
 export  default {
 
   name: 'search',
+
   computed: {
-    ...mapState(['searchQuery']),
+    ...mapGetters(["filteredPackages"]),
+    ...mapState(['searchQuery', 'packages']),
+
     query: {
       get(){
         return this.searchQuery
@@ -22,10 +25,12 @@ export  default {
   },
   methods: {
     ...mapActions(['setSearchQuery', 'search']),
+
     debouncedSearch: debounce( function ()  {
       this.search()
-    }, 500)
-  }
+    }, 200)
+  },
+
 
 }
 </script>
