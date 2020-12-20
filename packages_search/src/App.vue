@@ -35,3 +35,8 @@ export default {
   }
 };
 </script>
+<style scoped>
+ #app{
+   padding:  0 17%;
+ }
+</style>
