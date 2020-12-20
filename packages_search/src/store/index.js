@@ -7,13 +7,17 @@ const SET_LOADING = 'SET_LOADING';
 const SET_PACKAGES = 'SET_PACKAGES';
 const RESET_PACKAGES = 'RESET_PACKAGES';
 
+const OPEN_MODAL = 'OPEN_MODAL'
+const ADD_TO_MODAL = 'ADD_TO_MODAL'
 Vue.use(Vuex)
 
 export default new Vuex.Store({
   state: {
     packagesList: [],
+    isModalVisible: false,
     // searchQuery: '',
     loading:  false,
+    modal: []
     // filteredPackages: []
   },
   mutations: {
@@ -21,6 +25,9 @@ export default new Vuex.Store({
     [SET_LOADING]: (state, loading) => state.loading = loading,
     [SET_PACKAGES]: (state, packagesList) => state.packagesList = packagesList,
     [RESET_PACKAGES]: state => state.packagesList = null,
+    [OPEN_MODAL]: state => state.isModalVisible = !state.isModalVisible,
+    [ADD_TO_MODAL]: (state, choosedPackage) => state.modal = choosedPackage
+
   },
   actions: {
     // setSearchQuery({commit}, searchQuery) {
@@ -38,10 +45,22 @@ export default new Vuex.Store({
             commit(RESET_PACKAGES, error)
           })
     },
+    toggleModal({commit}){
+    commit('OPEN_MODAL')
+    },
+    addToModal({commit}, choosedPackage){
+      commit('ADD_TO_MODAL', choosedPackage)
+    }
   },
   getters: {
     Packages(state){
       return state.packagesList
+    },
+    modalPackage(state){
+      return state.modal
+    },
+    ModalVisible(state){
+      return state.isModalVisible
     }
     // filteredPackages: state => state.packages
     //     .filter((p) => p

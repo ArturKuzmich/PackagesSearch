@@ -5,8 +5,17 @@
       <div class="title">Package Author</div>
       <div class="title">Package GitHub</div>
     </div>
+    <div v-if="ModalVisible" class="package_modal">
+      <Modal
+        :modal_data="modalPackage"
+      />
+    </div>
     <div class="packages_table-body">
-    <Package v-for="pack in pagination" :package_desc="pack" />
+    <Package
+        @pushToModal="pushToModal"
+        v-for="pack in pagination"
+        :package_desc="pack"
+    />
     </div>
     <div class="packages_pagination">
       <div class="pagination"
@@ -22,11 +31,15 @@
 
 </template>
 <script>
-import {mapGetters, mapState} from 'vuex'
+import {mapActions, mapGetters, mapState} from 'vuex'
 import Package from './package'
+import Pagination from "@/components/pagination";
+import Modal from "@/components/modal";
 export default {
   name: 'packages',
   components:{
+    Modal,
+    Pagination,
     Package
   },
   props: {
@@ -45,7 +58,11 @@ export default {
   },
   computed: {
     // ...mapState(['loading', 'packages']),
-    // ...mapGetters(['filteredPackages']),
+    ...mapGetters([
+        // 'filteredPackages',
+        'modalPackage',
+      'ModalVisible',
+    ]),
     pages(){
       return Math.ceil(this.packages_data.length / 10)
     },
@@ -56,10 +73,22 @@ export default {
     }
   },
   methods: {
+    ...mapActions(['addToModal']),
+    pushToModal(data){
+      this.addToModal(data)
+      console.log(data)
+    },
     pageChange(page){
       this.pageNumber = page
-    }
+    },
+
+
   },
+  watch:{
+    ModalVisible(to){
+
+    }
+  }
 }
 </script>
 
@@ -87,6 +116,15 @@ export default {
           padding: 0 4%;
         }
       }
+      .package_modal{
+        //position: absolute;
+        box-shadow: 0 3px 1px -2px rgba(0,0,0,.2), 0 2px 2px 0 rgba(0,0,0,.14), 0 1px 5px 0 rgba(0,0,0,.12);
+        z-index: 2;
+        background-color: #fff;
+        color: rgba(0,0,0,.87);
+        padding: 20px;
+        width: 100%;
+      }
       .packages_table-body{
 
       }
@@ -108,6 +146,50 @@ export default {
           &.page_choosed{
             background: #0b3f8d;
             color: #fff;
+          }
+        }
+      }
+    }
+    @media only screen and (max-width: 425px){
+        .packages_table{
+          .packages_table-row{
+            .title{
+              font-size: 15px;
+              line-height: 19px;
+              height: 28px;
+            }
+          }
+          .packages_table-body{
+            .packages_body-row{
+              padding: 5px 20px;
+              .package_desc{
+                width: 35%;
+              }
+            }
+          }
+        }
+    }
+
+    @media only screen and (max-width: 375px){
+      .packages_table{
+        .packages_table-row{
+          .title{
+            padding: 0 2%;
+            height: 32px;
+          }
+        }
+        .packages_table-body{
+          .packages_body-row{
+            padding: 5px 10px;
+          }
+        }
+      }
+    }
+    @media only screen and (max-width: 320px){
+      .packages_table{
+        .packages_table-row{
+          .title{
+            font-size: 12px;
           }
         }
       }
