@@ -6,10 +6,17 @@
       <div class="title">Package GitHub</div>
     </div>
     <div class="packages_table-body">
-    <Package v-for="pack in packages_data" :package_desc="pack" />
+    <Package v-for="pack in pagination" :package_desc="pack" />
     </div>
     <div class="packages_pagination">
-      <div class="pagination"></div>
+      <div class="pagination"
+           v-for="page in pages"
+           :key="page"
+           @click="pageChange(page)"
+           :class="{'page_choosed' : page === pageNumber}"
+      >
+        {{page}}
+      </div>
     </div>
   </div>
 
@@ -33,15 +40,26 @@ export default {
   data(){
     return{
       packagePage: 10,
+      pageNumber: 1
     }
   },
   computed: {
     // ...mapState(['loading', 'packages']),
     // ...mapGetters(['filteredPackages']),
     pages(){
-
+      return Math.ceil(this.packages_data.length / 10)
+    },
+    pagination(){
+      let from = (this.pageNumber - 1) * this.packagePage
+      let to = from + this.packagePage
+      return this.packages_data.slice(from, to)
     }
-  }
+  },
+  methods: {
+    pageChange(page){
+      this.pageNumber = page
+    }
+  },
 }
 </script>
 
@@ -71,6 +89,27 @@ export default {
       }
       .packages_table-body{
 
+      }
+      .packages_pagination{
+        display: flex;
+        flex-wrap: wrap;
+        justify-content: center;
+        margin: 25px 0 0 0;
+        .pagination{
+          cursor: pointer;
+          padding: 8px;
+          border-radius: 8px;
+          border: 2px solid #0b3f8d;
+          margin: 8px;
+          &:hover{
+            background: #0b3f8d;
+            color: #fff;
+          }
+          &.page_choosed{
+            background: #0b3f8d;
+            color: #fff;
+          }
+        }
       }
     }
 </style>
