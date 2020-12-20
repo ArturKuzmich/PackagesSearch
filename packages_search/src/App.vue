@@ -1,13 +1,14 @@
 <template>
-  <div>
+  <div id="app">
       <Search />
-      <Packages />
+      <Packages :packages_data="Packages" />
   </div>
 </template>
 
 <script>
 import Search from "@/components/search";
 import Packages from "@/components/packages";
+import {mapActions, mapGetters} from "vuex";
 
 export default {
   name: 'App',
@@ -17,7 +18,20 @@ export default {
     Search,
   },
 
+
   data: () => ({
   }),
+
+
+  computed: {
+  ...mapGetters(['Packages'])
+  },
+  methods: {
+    ...mapActions(['getPackages'])
+  },
+
+  mounted() {
+    this.getPackages()
+  }
 };
 </script>
