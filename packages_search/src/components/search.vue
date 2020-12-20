@@ -1,7 +1,7 @@
 <template>
   <div class="packages_search">
     <input class="search_input" v-model="query" @input="" placeholder=" " />
-    <label class="item_label">Package name</label>
+    <label class="item_label">Enter package name</label>
   </div>
 </template>
 
@@ -50,6 +50,7 @@ export  default {
     .search_input {
       background: transparent;
       width: 100%;
+      height: 32px;
       outline: none;
       border: transparent;
 

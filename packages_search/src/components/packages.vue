@@ -86,7 +86,13 @@ export default {
   },
   watch:{
     ModalVisible(to){
-
+      let overflow = document.getElementById('app')
+      // document.body.style.overflowY = to ? 'hidden' : ''
+      if(to){
+        overflow.classList.add('overflow')
+      }else{
+        overflow.classList.remove('overflow')
+      }
     }
   }
 }
@@ -102,7 +108,6 @@ export default {
         padding: 0 0 10px 0;
         .title{
           text-align: center;
-          cursor: pointer;
           height: 32px;
           display: flex;
           align-items: center;
@@ -117,13 +122,18 @@ export default {
         }
       }
       .package_modal{
-        //position: absolute;
-        box-shadow: 0 3px 1px -2px rgba(0,0,0,.2), 0 2px 2px 0 rgba(0,0,0,.14), 0 1px 5px 0 rgba(0,0,0,.12);
+        box-shadow: 0 3px 1px -2px rgba(0, 0, 0, 0.2), 0 2px 2px 0 rgba(0, 0, 0, 0.14), 0 1px 5px 0 rgba(0, 0, 0, 0.12);
         z-index: 2;
         background-color: #fff;
-        color: rgba(0,0,0,.87);
+        color: rgba(0, 0, 0, 0.87);
         padding: 20px;
         width: 100%;
+        top: 0;
+        position: absolute;
+        /* max-width: 800px; */
+        left: 0;
+        overflow-y: scroll;
+        height: 100vh;
       }
       .packages_table-body{
 
@@ -158,6 +168,9 @@ export default {
               line-height: 19px;
               height: 28px;
             }
+          }
+          .package_modal{
+            padding: 15px;
           }
           .packages_table-body{
             .packages_body-row{

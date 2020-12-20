@@ -38,7 +38,9 @@ export default {
 };
 </script>
 <style scoped>
- #app{
+
+
+  #app{
    padding:  0 17%;
    position: relative;
    display: flex;
@@ -46,6 +48,10 @@ export default {
    justify-content: center;
    flex-direction: column;
  }
+  .overflow{
+    overflow-y: hidden;
+    height: 100vh;
+  }
  @media only screen and (max-width: 1600px){
    #app{
      padding:  0 10%;
