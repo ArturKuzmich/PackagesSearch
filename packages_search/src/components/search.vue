@@ -1,6 +1,10 @@
 <template>
   <div class="packages_search">
-    <input class="search_input" v-model="query" @input="" placeholder=" " />
+    <input class="search_input"
+           v-model="searchPackages"
+           @input="search(searchPackages)"
+           placeholder=" "
+    />
     <label class="item_label">Enter package name</label>
   </div>
 </template>
@@ -11,11 +15,19 @@ import {mapActions, mapState, mapGetters} from 'vuex';
 import debounce from 'lodash.debounce';
 export  default {
   name: 'search',
+  data(){
+    return{
+      searchPackages: '',
+    }
+  },
   mounted() {
     // this.search()
   },
   computed: {
-    // ...mapGetters(["filteredPackages"]),
+    ...mapGetters([
+        // "filteredPackages",
+        'findValue'
+    ]),
     // ...mapState(['searchQuery', 'packages']),
 
     query: {
@@ -28,8 +40,10 @@ export  default {
     }
   },
   methods: {
-    ...mapActions(['setSearchQuery', 'search', ]),
-
+    ...mapActions(['setSearchQuery', 'search', 'searchValue' ]),
+  search(value){
+    this.searchValue(value)
+  }
     // debouncedSearch: debounce( function ()  {
     //   this.search()
     // }, 200)

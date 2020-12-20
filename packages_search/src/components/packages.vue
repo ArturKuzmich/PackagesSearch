@@ -60,6 +60,7 @@ export default {
     // ...mapState(['loading', 'packages']),
     ...mapGetters([
         // 'filteredPackages',
+        'findValue',
         'modalPackage',
       'ModalVisible',
     ]),
@@ -81,10 +82,22 @@ export default {
     pageChange(page){
       this.pageNumber = page
     },
+    searchPackages(value){
+      if(value) {
+        this.packages_data = this.packages_data.filter(function (item) {
+          return item.name.toLowerCase().includes(value.toLowerCase())
+        })
+      }else{
+        this.packages_data = this.packages_data
+      }
 
+  }
 
   },
   watch:{
+    findValue(){
+      this.searchPackages(this.findValue)
+    },
     ModalVisible(to){
       let overflow = document.getElementById('app')
       // document.body.style.overflowY = to ? 'hidden' : ''
