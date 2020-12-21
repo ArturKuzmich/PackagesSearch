@@ -52,6 +52,10 @@ export default {
   .package_desc {
     width: 35%;
     text-align: center;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+
 
     &.package_link a {
       text-decoration: none;
@@ -66,9 +70,7 @@ export default {
       padding: 10px 20px;
       .package_desc {
         font-size: 15px;
-        white-space: nowrap;
-        overflow: hidden;
-        text-overflow: ellipsis;
+
       }
     }
   }
