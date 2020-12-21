@@ -3,7 +3,7 @@
     <div v-if="loading">
       <Loading/>
     </div>
-    <div v-else class="packages_table">
+    <div v-else-if="packages_data.length > 0" class="packages_table">
       <div class="packages_table-row">
         <div class="title">Package Name</div>
         <div class="title">Package Author</div>
@@ -16,28 +16,42 @@
       </div>
       <div class="packages_table-body">
         <Package
+
             @pushToModal="pushToModal"
-            v-for="pack in pagination"
+            v-for="pack in paginatedData"
             :package_desc="pack"
         />
+
       </div>
       <div class="packages_pagination">
-        <div class="pagination"
-             v-for="page in pages"
-             :key="page"
-             @click="pageChange(page)"
-             :class="{'page_choosed' : page === pageNumber}"
-        >
-          {{ page }}
+        <button class="change_page"
+            :disabled="pageNumber === 0"
+            @click="prevPage">
+          Previous
+        </button>
+        <div class="pagination_button">
+          <div class="pagination"
+               v-for="page in pages"
+               :key="page"
+               @click="pageChange(page)"
+               :class="{'page_choosed' : page === pageNumber}"
+          >
+            {{ page }}
+          </div>
         </div>
+        <button class="change_page"
+            :disabled="pageNumber >= pageCount -1"
+            @click="nextPage">
+          Next
+        </button>
       </div>
     </div>
+    <div v-else>Text looks like spam</div>
   </div>
 </template>
 <script>
 import {mapActions, mapGetters, mapState} from 'vuex'
 import Package from './package'
-import Pagination from "@/components/pagination";
 import Modal from "@/components/modal";
 import Loading from "@/components/loading";
 
@@ -46,7 +60,6 @@ export default {
   components: {
     Loading,
     Modal,
-    Pagination,
     Package
   },
   props: {
@@ -60,10 +73,27 @@ export default {
   data() {
     return {
       packagePage: 10,
+      page: 1,
+      length: 10,
+      size: 10,
       pageNumber: 1,
+      perPage: 10,
+      total: 0,
+      current: 1
     }
   },
   computed: {
+    pageCount() {
+      let l = this.packages_data.length,
+          s = this.size;
+      return Math.ceil(l / s);
+    },
+    paginatedData() {
+      const start = this.pageNumber * this.size,
+          end = start + this.size;
+      return this.packages_data
+          .slice(start, end);
+    },
     ...mapState(['loading']),
     ...mapGetters([
       'modalPackage',
@@ -73,13 +103,18 @@ export default {
     pages() {
       return Math.ceil(this.packages_data.length / 10)
     },
-    pagination() {
-      let from = (this.pageNumber - 1) * this.packagePage
-      let to = from + this.packagePage
-      return this.packages_data.slice(from, to)
-    }
   },
   methods: {
+
+
+
+    ////////
+    nextPage() {
+      this.pageNumber++;
+    },
+    prevPage() {
+      this.pageNumber--;
+    },
     ...mapActions(['addToModal']),
     pushToModal(data) {
       this.addToModal(data)
@@ -105,7 +140,7 @@ export default {
 
 <style scoped lang="scss">
 .packages_visible {
-  width: 70%;
+  width: 100%;
 
   .packages_table {
     width: 100%;
@@ -153,39 +188,68 @@ export default {
 
     .packages_pagination {
       display: flex;
-      flex-wrap: wrap;
       justify-content: center;
-      margin: 25px 0 0 0;
+      width: 90%;
+      margin: 25px auto;
+    .change_page{
+      border-radius: 12px;
+      outline: none;
+      background: transparent;
+      border: 1px solid #0b3f8d;
+      box-sizing: border-box;
+      padding: 0 2%;
+      width: 80px;
+    }
+      .pagination_button {
+        display: flex;
+        width: 65%;
+        overflow: hidden;
+        .pagination {
+          cursor: pointer;
+          padding: 8px;
+          border-radius: 8px;
+          border: 2px solid #0b3f8d;
+          margin: 8px;
 
-      .pagination {
-        cursor: pointer;
-        padding: 8px;
-        border-radius: 8px;
-        border: 2px solid #0b3f8d;
-        margin: 8px;
+          &:hover {
+            background: #0b3f8d;
+            color: #fff;
+          }
 
-        &:hover {
-          background: #0b3f8d;
-          color: #fff;
-        }
-
-        &.page_choosed {
-          background: #0b3f8d;
-          color: #fff;
+          &.page_choosed {
+            background: #0b3f8d;
+            color: #fff;
+          }
         }
       }
+
     }
   }
 
 }
-@media only screen and (max-width: 600px) {
-  .packages_visible {
-    width: 80%;
+@media only screen and (max-width: 1920px){
+  .packages_visible{
+    .packages_table{
+      .packages_pagination{
+        justify-content: space-between;
+        .pagination_button{
+          width: 76%;
+          .pagination{
+            margin: 6px;
+          }
+        }
+      }
+    }
   }
 }
+@media only screen and (max-width: 600px) {
+  .packages_visible {
+    width: 100%;
+  }
+}
+
 @media only screen and (max-width: 425px) {
   .packages_visible {
-    width: 95%;
     .packages_table {
       .packages_table-row {
         .title {
@@ -233,7 +297,6 @@ export default {
 
 @media only screen and (max-width: 320px) {
   .packages_visible {
-    width: 100%;
     .packages_table {
       .packages_table-row {
         .title {

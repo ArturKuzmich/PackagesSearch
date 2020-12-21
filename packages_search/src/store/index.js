@@ -1,13 +1,13 @@
 import Vue from 'vue'
 import Vuex from 'vuex'
 import axios from 'axios'
-
 const SET_LOADING = 'SET_LOADING';
 const SET_PACKAGES = 'SET_PACKAGES';
 const OPEN_MODAL = 'OPEN_MODAL'
 const ADD_TO_MODAL = 'ADD_TO_MODAL'
 
 Vue.use(Vuex)
+
 
 export default new Vuex.Store({
   state: {
@@ -35,6 +35,7 @@ export default new Vuex.Store({
           })
           .catch(error => {
             console.log(error)
+            commit(SET_LOADING, true);
           })
     },
     toggleModal({commit}){

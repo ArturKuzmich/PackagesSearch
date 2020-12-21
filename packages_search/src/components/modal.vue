@@ -27,7 +27,7 @@
       </div>
       <div v-if="modal_data.github" class="modal_items">
         <h3 class="modal_items-title">GitHub</h3>
-        <a  :href="modal_data.github" class="modal_items-desc link">{{modal_data.github}}</a>
+        <a  target="_blank" :href="modal_data.github" class="modal_items-desc link">{{modal_data.github}}</a>
       </div>
       <div class="modal_closed">
         <button @click="toggleModal" class="closed">Closed</button>
@@ -36,7 +36,7 @@
 </template>
 
 <script>
-import {mapActions, mapGetters} from "vuex";
+import {mapActions} from "vuex";
 
 export default {
   name: "modal",
@@ -83,12 +83,14 @@ export default {
       justify-content: flex-end;
       margin: 20px 0 0 0;
       .closed{
+        outline: none;
         background: #0b3f8d;
         padding: 0 2% ;
         height: 42px  ;
         border-radius: 8px;
         box-sizing: border-box;
         color: white;
+        cursor: pointer;
       }
     }
   }

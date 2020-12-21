@@ -1,5 +1,6 @@
 <template>
   <div id="app">
+    <div class="app_content">
     <div class="packages_search">
       <input class="search_input"
              v-model="search"
@@ -11,17 +12,21 @@
     <Packages
         :packages_data="searchPackages"
     />
+    </div>
+    <Footer />
   </div>
 </template>
 
 <script>
 import Packages from "@/components/packages";
 import {mapActions, mapGetters} from "vuex";
+import Footer from "@/components/v_footer";
 
 export default {
   name: 'App',
 
   components: {
+    Footer,
     Packages,
   },
 
@@ -35,7 +40,6 @@ export default {
     searchPackages() {
       return this.$store.getters.searchPackages(this.search)
     },
-    ...mapGetters(['Packages'])
   },
   methods: {
     ...mapActions(['getPackages'])
@@ -56,11 +60,14 @@ export default {
   align-items: center;
   justify-content: center;
   flex-direction: column;
-
+  min-height: 100%;
+.app_content{
+  width: 70%;
+  padding-bottom: 90px;
   .packages_search {
     position: relative;
     border-bottom: 1px solid #0b3f8d;
-    width: 70%;
+    width: 100%;
     display: flex;
     padding: 0 0 10px 0;
     margin: 30px 0 30px 0;
@@ -96,6 +103,7 @@ export default {
     }
   }
 }
+}
 
 .overflow {
   overflow-y: hidden;
@@ -112,14 +120,21 @@ export default {
 @media only screen and (max-width: 1366px) {
   #app {
     padding: 0 8%;
+    .app_content{
+      .packages_search{
+        margin: 10px 0 10px 0;
+      }
+    }
   }
 }
 
 @media only screen and (max-width: 945px) {
   #app {
     padding: 0 4%;
-    .packages_search{
-      margin: 30px 0 20px 0;
+    .app_content{
+      .packages_search{
+        margin: 30px 0 20px 0;
+      }
     }
   }
 }
@@ -127,19 +142,25 @@ export default {
 @media only screen and (max-width: 600px) {
   #app {
     padding: 0 2%;
-    .packages_search{
-      width: 85%;
+    .app_content{
+      width: 100%;
+      .packages_search{
+        width: 85%;
+      }
     }
   }
 }
 @media only screen and (max-width: 425px) {
   #app {
-    .packages_search{
-      margin: 20px 0 15px 0;
-      padding: 0;
-      .item_label{
-        left: 15px;
-        bottom: 5px;
+    .app_content{
+      padding-bottom: 0;
+      .packages_search{
+        margin: 20px 0 15px 0;
+        padding: 0;
+        .item_label{
+          left: 15px;
+          bottom: 5px;
+        }
       }
     }
   }

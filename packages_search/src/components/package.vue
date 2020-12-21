@@ -7,7 +7,7 @@
 </template>
 
 <script>
-import {mapGetters, mapActions} from 'vuex'
+import {mapActions} from 'vuex'
 export default {
 
   name: "package",
@@ -20,31 +20,23 @@ export default {
     }
   },
   methods: {
-
     ...mapActions(['toggleModal']),
-    openModal(){
-
-    },
     pushToModal(){
       this.$emit('pushToModal', this.package_desc)
       this.toggleModal()
     }
   },
-  computed: {
-    ...mapGetters([
-      'OPEN_MODAL'
-    ]),
-  }
 }
 
 </script>
 
 <style scoped lang="scss">
+
 .packages_body-row {
   display: flex;
   align-items: center;
   justify-content: space-between;
-  margin: 10px 0;
+  margin: 5px 0;
   border-radius: 6px;
   overflow: hidden;
   padding: 10px 15px;
@@ -58,8 +50,8 @@ export default {
   }
 
   .package_desc {
-    flex-basis: 20%;
-    text-align: left;
+    width: 35%;
+    text-align: center;
 
     &.package_link a {
       text-decoration: none;
@@ -73,7 +65,10 @@ export default {
     .packages_body-row {
       padding: 10px 20px;
       .package_desc {
-        flex-basis: 30%;
+        font-size: 15px;
+        white-space: nowrap;
+        overflow: hidden;
+        text-overflow: ellipsis;
       }
     }
   }
@@ -81,7 +76,6 @@ export default {
 @media only screen and (max-width: 320px){
   .packages_body-row{
     margin: 5px 0;
-
   }
 }
 </style>
