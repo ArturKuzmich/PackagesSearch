@@ -173,10 +173,8 @@ export default {
       background-color: #fff;
       color: rgba(0, 0, 0, 0.87);
       padding: 20px;
-      width: 100%;
       top: 0;
       position: absolute;
-      /* max-width: 800px; */
       left: 0;
       overflow-y: scroll;
       height: 100vh;

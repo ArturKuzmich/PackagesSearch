@@ -64,6 +64,7 @@ export default {
     }
     .modal_items{
       .modal_items-title{
+        overflow: hidden;
         font-size: 22px;
         line-height: 21px;
         margin:  10px 0 10px 0;

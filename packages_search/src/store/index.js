@@ -1,6 +1,8 @@
 import Vue from 'vue'
 import Vuex from 'vuex'
 import axios from 'axios'
+
+
 const SET_LOADING = 'SET_LOADING';
 const SET_PACKAGES = 'SET_PACKAGES';
 const OPEN_MODAL = 'OPEN_MODAL'

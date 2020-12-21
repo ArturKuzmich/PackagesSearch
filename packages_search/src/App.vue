@@ -108,6 +108,7 @@ export default {
 .overflow {
   overflow-y: hidden;
   height: 100vh;
+  overflow-x: hidden;
 }
 
 @media only screen and (max-width: 1600px) {
