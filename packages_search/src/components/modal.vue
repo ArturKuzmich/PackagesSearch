@@ -101,6 +101,10 @@ export default {
         padding: 5px 23px 5px;
       }
       .modal_items{
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        flex-direction: column;
         .modal_items-title{
           margin: 10px 0 5px 0;
         }
