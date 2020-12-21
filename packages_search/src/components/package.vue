@@ -2,11 +2,7 @@
   <div @click="pushToModal" class="packages_body-row">
     <div class="package_desc package_name">{{ package_desc.name }}</div>
     <div class="package_desc package_author">{{ package_desc.author }}</div>
-    <div class="package_desc package_link">
-      <a :href="package_desc.github">
-        Go to GitHub
-      </a>
-    </div>
+    <div class="package_desc package_link">{{ package_desc.lastversion }}</div>
   </div>
 </template>
 
