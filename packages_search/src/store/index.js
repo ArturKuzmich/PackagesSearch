@@ -48,11 +48,14 @@ export default new Vuex.Store({
     },
   },
   getters: {
-    searchPackages: state => search => state.packagesList
-        .filter(item =>
-            item.name
-                .toLowerCase().trim()
-                .includes(search.toLowerCase())),
+    searchPackages(state, search){
+      return state.packagesList
+    },
+    // searchPackages: state => search => state.packagesList
+    //     .filter(item =>
+    //         item.name
+    //             .toLowerCase().trim()
+    //             .includes(search.toLowerCase())),
 
     modalPackage(state){
       return state.setToModal

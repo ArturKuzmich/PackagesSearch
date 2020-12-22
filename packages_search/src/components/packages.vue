@@ -23,7 +23,7 @@
         />
 
       </div>
-      <div class="packages_pagination">
+      <div  class="packages_pagination">
         <button class="change_page"
             :disabled="pageNumber === 0"
             @click="prevPage">
@@ -31,7 +31,7 @@
         </button>
         <div class="pagination_button">
           <div class="pagination"
-               v-for="page in pages"
+               v-for="page in pageCount"
                :key="page"
                @click="pageChange(page)"
                :class="{'page_choosed' : page === pageNumber}"
@@ -46,7 +46,6 @@
         </button>
       </div>
     </div>
-    <div v-else>Text looks like spam</div>
   </div>
 </template>
 <script>
@@ -72,14 +71,8 @@ export default {
   },
   data() {
     return {
-      packagePage: 10,
-      page: 1,
-      length: 10,
       size: 10,
-      pageNumber: 1,
-      perPage: 10,
-      total: 0,
-      current: 1
+      pageNumber: 0,
     }
   },
   computed: {
@@ -87,6 +80,7 @@ export default {
       let l = this.packages_data.length,
           s = this.size;
       return Math.ceil(l / s);
+
     },
     paginatedData() {
       const start = this.pageNumber * this.size,
@@ -99,16 +93,8 @@ export default {
       'modalPackage',
       'ModalVisible',
     ]),
-
-    pages() {
-      return Math.ceil(this.packages_data.length / 10)
-    },
   },
   methods: {
-
-
-
-    ////////
     nextPage() {
       this.pageNumber++;
     },
@@ -118,9 +104,9 @@ export default {
     ...mapActions(['addToModal']),
     pushToModal(data) {
       this.addToModal(data)
-      console.log(data)
     },
     pageChange(page) {
+      console.log(page)
       this.pageNumber = page
     },
   },

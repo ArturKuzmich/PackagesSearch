@@ -10,7 +10,7 @@
       <label class="item_label">Enter package name</label>
     </div>
     <Packages
-        :packages_data="searchPackages"
+        :packages_data="result"
     />
     </div>
     <Footer />
@@ -32,19 +32,31 @@ export default {
 
 
   data: () => ({
-    search: ''
+    search: '',
+    result: []
   }),
 
 
   computed: {
-    searchPackages() {
-      return this.$store.getters.searchPackages(this.search)
-    },
+    ...mapGetters(['searchPackages']),
+    // searchPackages() {
+    //   // return this.$store.getters.searchPackages(this.search)
+    //   return this.$store.getters.searchPackages
+    // },
   },
   methods: {
     ...mapActions(['getPackages'])
   },
+watch: {
+    search(to){
+      console.log(to)
+      if(to == null) return false;
+      this.result = this.searchPackages.filter((item) => {
+        return to.toLowerCase().split(' ').every(v => item.name.toLowerCase().indexOf(v) > -1)
 
+      })
+    }
+},
   mounted() {
     this.getPackages()
   }
@@ -58,9 +70,10 @@ export default {
   position: relative;
   display: flex;
   align-items: center;
-  justify-content: center;
+  //justify-content: center;
   flex-direction: column;
   min-height: 100%;
+  height: 100vh;
 .app_content{
   width: 70%;
   padding-bottom: 90px;
